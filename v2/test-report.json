@@ -1,0 +1,51 @@
+{
+  "version": "2.0-RC1",
+  "date": "2026-11-26",
+  "status": "CANDIDATO_EXPERIMENTAL",
+  "tests": {
+    "motor": {
+      "passed": 12,
+      "scope": "Pruebas unitarias de filtros, conteos, desconocidos, CSV seguro, separación de niveles y perfiles candidatos"
+    },
+    "interfaz": {
+      "passed": 17,
+      "scope": "DOM simulado ejecutando el código recuperado del repositorio: carga, tarjetas, filtros, listas, paginación, tabla, cronología, niveles, enlace, comparación y condiciones"
+    },
+    "muestra_real": {
+      "passed": 4,
+      "scope": "Registros reales de CAT V3.4 leídos en memoria: identidad, relación, año/serie de aparición, material no inferido"
+    }
+  },
+  "auditoria_estructural_local": {
+    "version": "V3.4 y envoltorio UNI T03",
+    "legacy_identical": true,
+    "fabricantes": 80,
+    "modelos": 3496,
+    "variantes": 1146,
+    "apariciones": 1516,
+    "referentes": 6,
+    "ids_unique": true,
+    "variant_relation_errors": 0,
+    "appearance_relation_errors": 0,
+    "profile_nodes": 44,
+    "selectable_profiles": 36,
+    "field_definitions": 259,
+    "publicable_definitions": 192,
+    "active_ND": 3496,
+    "full_runtime_import_test": false
+  },
+  "protected": {
+    "index_v1": "9d90aa77f9ba89f1a452ce71b39a1119d37f2838",
+    "demo_v1": "7cf48cfe2e88afb0bfe143a2d77efb8df737fc65",
+    "readme_v1": "7f8de2ff8f409b1fdbab6c24472e986979bb2201"
+  },
+  "pending": [
+    "Prueba gráfica de V2 en navegador real y despliegue Pages",
+    "Prueba de importación completa V3.4 y UNI T03 en navegador real",
+    "Verificación íntegra del manifiesto UNI y de estructuras no escalares",
+    "Ajuste a paleta real de Blogger",
+    "Prueba en página de Blogger autorizada",
+    "Autorización y proyección pública de datos reales",
+    "Aprobación definitiva"
+  ]
+}
