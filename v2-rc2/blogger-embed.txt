@@ -1,0 +1,7 @@
+<!-- EMDC-LD01 V2.0 RC2 — componente de prueba, no instalado -->
+<section style="max-width:100%;overflow:hidden;">
+  <h2>Explorador de miniaturas</h2>
+  <iframe title="Explorador EMDC — demostración" src="https://drakit.github.io/emdc-cat-public/v2-rc2/?embed=1" loading="lazy" style="width:100%;height:1150px;border:0;display:block;background:transparent;" referrerpolicy="no-referrer"></iframe>
+  <p><a href="https://drakit.github.io/emdc-cat-public/v2-rc2/" target="_blank" rel="noopener noreferrer">Abrir el explorador en ventana independiente</a></p>
+</section>
+<!-- Instalar únicamente en una página de pruebas autorizada. La altura es provisional. No modificar plantilla. -->
