@@ -32,10 +32,11 @@ function populateData(d,src){
   sync();render();
 }
 const publishedRoot="https://drakit.github.io/emdc-cat-public/";
+const deploymentMode="demo"; // Cambiar a public solo en una publicación autorizada.
 let loadGeneration=0;
 async function fetchJson(url){
   const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),8000);
+  const timeout=setTimeout(()=>controller.abort(),6000);
   try{
     const response=await fetch(url,{cache:"no-store",signal:controller.signal});
     if(!response.ok)throw Error("HTTP "+response.status);
@@ -45,37 +46,38 @@ async function fetchJson(url){
 }
 function restoreShared(){const raw=location.hash.slice(1);if(raw.startsWith("lista=")){try{apply(JSON.parse(decodeURIComponent(raw.slice(6))))}catch(e){feedback("Enlace de lista no válido: "+e.message)}}}
 async function reload(){
- const generation=++loadGeneration;let publicRequested=false;
+ const generation=++loadGeneration;let publicRequested=deploymentMode==="public",stage="configuración";
  $("warning").textContent="Cargando catálogo publicado…";
  $("sourceBadge").textContent="Estado de la fuente · Cargando";
  setStatus("Consultando manifiesto y datos JSON.");
  $("reload").disabled=true;
  try{
-  const manifest=await fetchJson(publishedRoot+"v2-rc2/manifest.json?rev=20261126-rc2a");
+  const manifest=await fetchJson(publishedRoot+"v2-rc2/catalog-source.json");
   if(generation!==loadGeneration)return;
   if(manifest?.schema!=="EMDC-LD01-MANIFEST-1.0")throw Error("Manifiesto incompatible");
-  publicRequested=manifest.source?.type==="public";
+  publicRequested=publicRequested||manifest.source?.type==="public";
+  if(manifest.source?.type!==(deploymentMode==="public"?"public":"fictional"))throw Error("Modo de publicación incompatible con esta versión");
   const path=publicRequested&&manifest.source?.authorization==="APPROVED"&&manifest.source?.path==="./public-data.json"?"v2-rc2/public-data.json":manifest.source?.type==="fictional"&&manifest.source?.path==="../demo.json"?"demo.json":null;
   if(!path)throw Error("Fuente no autorizada o incompatible");
-  const payload=await fetchJson(publishedRoot+path+"?rev=20261126-rc2a");
+  stage="datos del catálogo";const payload=await fetchJson(publishedRoot+path+"?rev=20261126-rc2b");
   if(generation!==loadGeneration)return;
   if(publicRequested&&(payload.schema!=="EMDC-LD01-PUBLIC-1.0"||payload.authorization!=="APPROVED"))throw Error("Proyección no aprobada");
   if(!publicRequested&&payload.fictional!==true)throw Error("Fuente ficticia incompatible");
-  populateData(payload,"JSON de GitHub Pages");restoreShared();
+  populateData(payload,"Configuración catalog-source.json y JSON de GitHub Pages verificados");restoreShared();
  }catch(e){
   if(generation!==loadGeneration)return;
-  const reason=e.message||String(e);
+  const reason=stage+": "+(e.message||String(e));
   if(publicRequested){
    $("warning").textContent="No se pudo cargar el catálogo público autorizado. "+reason+". No se ha sustituido por datos ficticios.";
    $("sourceBadge").textContent="Estado de la fuente · Error de carga";
    setStatus(reason);return;
   }
   try{
-   const payload=await fetchJson(publishedRoot+"demo.json?rev=20261126-rc2a-direct");
+   const payload=await fetchJson(publishedRoot+"demo.json?rev=20261126-rc2b-direct");
    if(generation!==loadGeneration)return;
    if(payload?.schema_version!=="demo-1.0"||payload.fictional!==true)throw Error("Demostración incompatible");
-   populateData(payload,"JSON ficticio directo · manifiesto no disponible: "+reason);
-   $("warning").textContent="Datos ficticios de demostración. Carga directa de respaldo; no se pudo completar la lectura normal del manifiesto.";
+   populateData(payload,"JSON ficticio directo · fallo de carga: "+reason);
+   $("warning").textContent="Datos ficticios · carga directa de respaldo. Motivo: "+reason+".";
    restoreShared();
   }catch(fallbackError){
    if(generation!==loadGeneration)return;
@@ -146,7 +148,7 @@ function distribution(){const key=$("group").value,m=new Map();for(const r of ro
 function download(name,content,type){const url=URL.createObjectURL(new Blob([content],{type})),a=elem("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function showSaved(){const box=$("saved");box.replaceChildren();if(!saved.length)box.append(elem("p","No hay listas guardadas.","small"));saved.forEach((s,i)=>{const line=elem("div",undefined,"saved"),open=elem("button","Abrir"),del=elem("button","Eliminar");open.onclick=()=>{try{apply(s)}catch(e){feedback(e.message)}};del.onclick=()=>{saved.splice(i,1);persist();showSaved()};line.append(elem("strong",s.name),open,del);box.append(line)})}
 function persist(){try{localStorage.setItem(storage,JSON.stringify(saved));feedback("Criterios guardados en este navegador.")}catch{feedback("No se pudo acceder al almacenamiento local; listas temporales.")}}
-function library(){const items=[["Volkswagen",{"brand":"Volkswagen"}],["Escala 1:64",{scale:"1:64"}],["Metal",{material:"Metal"}],["Volkswagen 1:64",{brand:"Volkswagen",scale:"1:64"}]];const box=$("library");for(const [name,facets] of items){const b=elem("button",name);b.onclick=()=>{if(!["demo","public"].includes(data?.mode)){feedback("Estas listas están configuradas para una fuente publicada. Recarga el catálogo publicado primero.");return}apply({...defaults(),name,facets})};box.append(b)}}
+function library(){const items=[["Volkswagen",{"brand":"Volkswagen"}],["Escala 1:64",{scale:"1:64"}],["Metal",{material:"Metal"}],["Volkswagen 1:64",{brand:"Volkswagen",scale:"1:64"}]];const box=$("library");for(const [name,facets] of items){const b=elem("button",name);b.onclick=()=>{if(!ready){feedback("El catálogo todavía no está disponible. Comprueba el estado de la fuente y recarga si es necesario.");return}if(!["demo","public"].includes(data?.mode)){feedback("Estas listas están configuradas para una fuente publicada. Recarga el catálogo publicado primero.");return}apply({...defaults(),name,facets})};box.append(b)}}
 $("level").onchange=e=>changeLevel(e.target.value);
 for(const k of ["q","from","to","logic","sort","view"])$(k).addEventListener("input",e=>{state[k]=e.target.value;if(k==="view"&&state.view!=="compare")lastView=state.view;if(k==="view"&&state.view==="timeline"){state.sort="year";$("sort").value="year"}resetPage()});
 for(const k of facetKeys)$(k).onchange=e=>{state.facets[k]=e.target.value;resetPage()};
