@@ -1,0 +1,10 @@
+{
+  "schema": "EMDC-LD01-RELEASE-1.0",
+  "release": "2026-11-26-empty",
+  "status": "PENDING_APPROVAL",
+  "fictional": false,
+  "segments": [],
+  "registry": [],
+  "profiles": [],
+  "lists": []
+}
