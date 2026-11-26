@@ -1,0 +1,81 @@
+{
+  "version": "2.0-RC2",
+  "date": "2026-11-26",
+  "status": "CANDIDATO_EXPERIMENTAL",
+  "published_to_repository": true,
+  "public_data": "FICTICIA",
+  "changes": [
+    "LD-M12 comparador directo",
+    "LD-M13 barra flotante",
+    "LD-M14 limpiar selección",
+    "LD-M15 fotos autorizadas condicionales",
+    "LD-M16 ficha individual",
+    "LD-M17 enlace explícito a ficha EMDC",
+    "LD-M18 volver a filtros",
+    "LD-M19 nivel documental",
+    "LD-M20 etiquetas removibles",
+    "Paleta real de referencia MES-01 V1.8",
+    "Aislamiento de configuraciones RC1",
+    "Manifiesto de publicación y esquema público",
+    "Optimización de filtros y campos UNI por nivel"
+  ],
+  "tests": {
+    "ui": {
+      "passed": 19,
+      "scope": "DOM simulado con los archivos RC2 de GitHub; no navegador gráfico"
+    },
+    "storage_public_projection": {
+      "passed": 3,
+      "scope": "Migración de listas RC1, aislamiento de escritura y exclusión de campos no permitidos"
+    },
+    "links": {
+      "passed": 2,
+      "scope": "Motor admite foto propia/ficha explícita y rechaza foto externa/URL javascript"
+    },
+    "full_catalog": {
+      "files": 2,
+      "mode": "Node.js local; motor idéntico al blob GitHub 943f9c5a817267dbf2ec09d1ec364e7410d3cf90",
+      "per_file": {
+        "fabricantes": 80,
+        "modelos": 3496,
+        "variantes": 1146,
+        "apariciones": 1516,
+        "total": 6238
+      },
+      "relation_issues": 0,
+      "identity_checks": "Coincidencia de IDs en los cuatro niveles UNI; sin duplicados",
+      "appearance_checks": 1516,
+      "active_profile_ND": 3496,
+      "profile_nodes": 44,
+      "selectable_profiles": 36,
+      "master_definitions": 259,
+      "publicable_definitions": 192,
+      "extra_fields_projected": 19,
+      "linked_emdc_articles": 0,
+      "known_real_vehicle_brand_models": 8,
+      "known_scale_models": 29,
+      "limits": "No valida paquete/manifiesto UNI completo; los datos fuera de perfil y estructuras complejas no se publican."
+    },
+    "volume": {
+      "synthetic_records": 50000,
+      "full_sort_ms": 351,
+      "search_ms": 33,
+      "scope": "Una ejecución local Node.js del motor, no medición de navegador ni servidor."
+    }
+  },
+  "protected": {
+    "v1_index": "9d90aa77f9ba89f1a452ce71b39a1119d37f2838",
+    "rc1_index": "6ab83b991fa15ba9a81370e7fb3a5b17591701c6",
+    "rc1_app": "fcbb16bae49d5cee4dd1442d0fd151bcd34a3484",
+    "rc1_engine": "6432b23b49c31a1222034f373bbc46e0802de753"
+  },
+  "pending": [
+    "Confirmar despliegue RC2 y visualización en navegador móvil y escritorio",
+    "Prueba gráfica de tabla y barra flotante",
+    "Prueba de importación completa mediante interfaz real",
+    "Verificar manifiesto UNI completo y cobertura de tipos complejos",
+    "Prueba del iframe en página Blogger autorizada",
+    "Preparar y aprobar datos reales y derechos de fotografías antes de publicación",
+    "Aprobación definitiva"
+  ]
+}
