@@ -1,0 +1,16 @@
+{
+  "status": "PUBLICACION_INICIAL_PARCIAL",
+  "counts": {
+    "fabricante": 80,
+    "modelo": 21,
+    "variante": 25,
+    "aparicion": 31
+  },
+  "total": 157,
+  "source": "UNI T03; selección de directorio y hechos documentales Fandom",
+  "fictional": 0,
+  "segments": 80,
+  "engine_validation": "IDs y relaciones validados",
+  "rights_scope": "selección factual; atribución CC BY-SA 3.0, sin imágenes ni textos editoriales",
+  "pending": "resto de catálogo, validación de GitHub Pages y Blogger en navegador"
+}

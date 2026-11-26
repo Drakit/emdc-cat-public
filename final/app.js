@@ -25,7 +25,7 @@ function populateData(d,src){
   for(const x of data.registry)if(typeof x.id==="string"&&typeof x.nombre==="string")labels["x:"+x.id]=x.nombre;
   fields=Object.keys(labels);availability=new Map(Object.entries(data.rows).map(([k,arr])=>[k,new Set(arr.flatMap(r=>Object.keys(r).filter(x=>E.present(r[x]))))]));state=defaults();page=1;selected.clear();ready=true;
   $("sourceBadge").textContent="Catálogo público";
-  $("warning").textContent=Object.values(data.rows).some(a=>a.length)?"Catálogo documental de EMDC · "+releaseName+" · "+scopeLabel:"No hay registros públicos disponibles todavía.";
+  $("warning").textContent=Object.values(data.rows).some(a=>a.length)?"Catálogo documental de EMDC · "+releaseName+" · "+scopeLabel+" · cobertura inicial parcial":"No hay registros públicos disponibles todavía.";
   setStatus(src);
   sync();render();
 }
@@ -72,7 +72,7 @@ async function reload(){
  if(m.schema!=="EMDC-LD01-RELEASE-1.0"||m.fictional!==false||!["PENDING_APPROVAL","APPROVED"].includes(m.status)||!Array.isArray(m.segments)||typeof m.release!=="string")throw Error("Manifiesto inválido");
  if(m.status!=="APPROVED"&&m.segments.length)throw Error("Publicación no autorizada");const ids=new Set();for(const s of m.segments){if(!s.id||ids.has(s.id)||typeof s.label!=="string"||typeof s.path!=="string"||!s.counts||!E.levels.every(k=>Number.isInteger(s.counts[k])&&s.counts[k]>=0)||!/^[a-f0-9]{64}$/.test(s.sha256))throw Error("Índice de segmentos inválido");ids.add(s.id);}
  manifest=m;releaseName=m.release;cache.clear();
- const opts=[["","Elegir fabricante"],["all","Todos los fabricantes"],...m.segments.map(s=>[s.id,s.label])];const requested=new URLSearchParams(location.search).get("scope");setOptions($("scope"),opts,requested&&opts.some(x=>x[0]===requested)?requested:m.segments.length?"":"all");$("scope").disabled=!m.segments.length;
+ const opts=[["","Elegir fabricante"],["all","Todos los fabricantes"],...m.segments.map(s=>[s.id,s.label])];const requested=new URLSearchParams(location.search).get("scope");setOptions($("scope"),opts,requested&&opts.some(x=>x[0]===requested)?requested:m.default_scope&&opts.some(x=>x[0]===m.default_scope)?m.default_scope:m.segments.length?"":"all");$("scope").disabled=!m.segments.length;
  let initial=null;const hash=location.hash.slice(1);if(hash.startsWith("lista=")){try{initial=JSON.parse(decodeURIComponent(hash.slice(6)));if(typeof initial.scope==="string"&&opts.some(x=>x[0]===initial.scope))$("scope").value=initial.scope;}catch{feedback("Enlace de lista no válido.")}}
  await loadScope(initial);
  }catch(e){if(generation!==loadGeneration)return;clearResults("Catálogo temporalmente no disponible.");$("warning").textContent="No se pudo cargar el índice: "+e.message+". Reintenta.";}finally{$("reload").disabled=false}
