@@ -1,0 +1,38 @@
+<!-- INICIO EMDC-LD01 RC2b-B01 · integración adaptable -->
+<div id="emdc-ld01-contenedor" style="width:100%;max-width:100%;">
+  <iframe id="emdc-ld01-frame"
+    title="Explorador de miniaturas - El Mundo del Diecasting"
+    src="https://drakit.github.io/emdc-cat-public/v2-rc2/blogger.html?embed=1"
+    style="display:block;width:100%;height:1150px;border:0;background:transparent;"
+    loading="lazy" referrerpolicy="no-referrer"></iframe>
+  <p style="text-align:center;">
+    <a href="https://drakit.github.io/emdc-cat-public/v2-rc2/" target="_blank" rel="noopener noreferrer">Abrir el explorador en una ventana independiente</a>
+  </p>
+</div>
+<script>
+(function () {
+  var frame = document.getElementById("emdc-ld01-frame");
+  var origin = "https://drakit.github.io";
+  if (!frame) return;
+  function init() {
+    frame.contentWindow.postMessage({type:"EMDC_LD01_INIT"}, origin);
+  }
+  window.addEventListener("message", function (e) {
+    if (e.origin !== origin || e.source !== frame.contentWindow || !e.data) return;
+    if (e.data.type === "EMDC_LD01_HEIGHT") {
+      var h = Number(e.data.height);
+      if (Number.isFinite(h) && h >= 200 && h <= 100000) {
+        frame.style.height = Math.ceil(h) + "px";
+      }
+    } else if (e.data.type === "EMDC_LD01_SCROLL") {
+      var y = Number(e.data.top);
+      if (Number.isFinite(y) && y >= 0 && y <= frame.clientHeight) {
+        window.scrollTo({top:window.scrollY + frame.getBoundingClientRect().top + y - 20,behavior:"smooth"});
+      }
+    }
+  });
+  frame.addEventListener("load", init);
+  init();
+})();
+</script>
+<!-- FIN EMDC-LD01 RC2b-B01 -->
