@@ -10,7 +10,7 @@ function fieldName(k){return labels[k]||k}
 function display(v){return E.present(v)?String(v):"Sin dato"}
 function labelOf(r){return [r.brand,r.model].filter(Boolean).join(" ")||r.maker||r.id}
 function setStatus(msg){$("status").textContent=msg}
-function config(){return {...state,name:$("name").value.trim()||"Lista personalizada",columns:[...state.columns],facets:{...state.facets},conditions:state.conditions.map(x=>({...x}))}}
+function config(){return {...state,scope:$("scope").value,name:$("name").value.trim()||"Lista personalizada",columns:[...state.columns],facets:{...state.facets},conditions:state.conditions.map(x=>({...x}))}}
 function available(){const keys=availability.get(state.level)||new Set();return fields.filter(k=>k==="id"||keys.has(k)||state.columns.includes(k)||state.conditions.some(c=>c.field===k)||state.facets[k])}
 function pretty(k,v){return k==="profile"?(data?.profileLabels?.[v]||v):v}
 function updateSelection(){const n=selected.size;$("compareCount").textContent=n+" seleccionados";$("compareBar").hidden=!n;$("compareText").textContent=n+" de 4 seleccionados";$("compareNow").disabled=n<2;document.body.classList.toggle("with-selection",!!n)}
@@ -43,24 +43,25 @@ function resource(path){const u=new URL(path,publishedRoot);if(u.protocol!=="htt
 function restoreShared(){const raw=location.hash.slice(1);if(raw.startsWith("lista=")){try{apply(JSON.parse(decodeURIComponent(raw.slice(6))))}catch(e){feedback("Enlace de lista no válido: "+e.message)}}}
 function clearResults(msg){ready=false;data=null;rows=[];selected.clear();$("stats").replaceChildren();$("results").replaceChildren(elem("p",msg));$("dist").replaceChildren();$("page").textContent="";$("compareBar").hidden=true;for(const k of facetKeys){$(k).replaceChildren();$(k).disabled=true}for(const k of ["save","share","csv","export","copy","addCondition"])$(k).disabled=true;}
 function enableActions(){for(const k of ["save","share","csv","export","copy","addCondition"])$(k).disabled=false}
-async function loadScope(){
- const generation=++loadGeneration;const previous=config();clearResults("Cargando registros de consulta…");$("warning").textContent="Cargando catálogo…";
+async function loadScope(requestedConfig=null){
+ const generation=++loadGeneration;const previous=requestedConfig&&requestedConfig.schema==="EMDC-LD01-2.0"?requestedConfig:null;clearResults("Cargando registros de consulta…");$("warning").textContent="Cargando catálogo…";
  try{
   if(!manifest)throw Error("Configuración no disponible");
   const id=$("scope").value,segments=id==="all"?manifest.segments:manifest.segments.filter(s=>s.id===id);
   if(id!=="all"&&id!==""&&!segments.length)throw Error("Fabricante no disponible");
   const chosen=id===""?[]:segments;
   scopeLabel=id==="all"?"Todos los fabricantes":id===""?"Seleccione un fabricante":chosen[0]?.label||"Fabricante";
-  const result=emptyRows();const parts=await Promise.all(chosen.map(async s=>{
+  const result=emptyRows();const parts=[];async function one(s){
     const key=s.sha256+"|"+s.path;if(!cache.has(key)){const promise=fetchJson(resource(s.path),s.sha256).catch(e=>{cache.delete(key);throw e});cache.set(key,promise)}
     const part=await cache.get(key);if(part.schema!=="EMDC-LD01-SEGMENT-1.0"||part.id!==s.id||part.fictional!==false)throw Error("Segmento incompatible");
     for(const l of E.levels){if(!Array.isArray(part.rows?.[l])||part.rows[l].length!==s.counts[l])throw Error("Recuento inconsistente");for(const row of part.rows[l])if((l==="fabricante"?row.id:row.fabricante_id)!==s.id)throw Error("Fabricante inconsistente");}
     return part;
-  }));
+  }
+  for(let i=0;i<chosen.length;i+=4){parts.push(...await Promise.all(chosen.slice(i,i+4).map(one)));if(generation!==loadGeneration)return;}
   if(generation!==loadGeneration)return;
   for(const part of parts)for(const l of E.levels)result[l].push(...part.rows[l]);
   populateData({schema:"EMDC-LD01-PUBLIC-2.0",authorization:"APPROVED",fictional:false,rows:result,registry:manifest.registry||[],profiles:manifest.profiles||[]},"Versión "+releaseName);
-  enableActions();try{apply(previous)}catch{}restoreShared();library();
+  enableActions();if(previous){try{applyLocal(previous)}catch(e){feedback(e.message)}}library();
   if(!manifest.segments.length)$("warning").textContent="Catálogo en preparación: todavía no hay datos reales autorizados para consulta.";
   else if(!id)$("warning").textContent="Selecciona un fabricante o Todos los fabricantes para iniciar la consulta.";
  }catch(e){if(generation!==loadGeneration)return;clearResults("Catálogo temporalmente no disponible.");$("warning").textContent="No se pudo cargar el catálogo: "+e.message+". Reintenta.";}
@@ -72,7 +73,8 @@ async function reload(){
  if(m.status!=="APPROVED"&&m.segments.length)throw Error("Publicación no autorizada");const ids=new Set();for(const s of m.segments){if(!s.id||ids.has(s.id)||typeof s.label!=="string"||typeof s.path!=="string"||!s.counts||!E.levels.every(k=>Number.isInteger(s.counts[k])&&s.counts[k]>=0)||!/^[a-f0-9]{64}$/.test(s.sha256))throw Error("Índice de segmentos inválido");ids.add(s.id);}
  manifest=m;releaseName=m.release;cache.clear();
  const opts=[["","Elegir fabricante"],["all","Todos los fabricantes"],...m.segments.map(s=>[s.id,s.label])];const requested=new URLSearchParams(location.search).get("scope");setOptions($("scope"),opts,requested&&opts.some(x=>x[0]===requested)?requested:m.segments.length?"":"all");$("scope").disabled=!m.segments.length;
- await loadScope();
+ let initial=null;const hash=location.hash.slice(1);if(hash.startsWith("lista=")){try{initial=JSON.parse(decodeURIComponent(hash.slice(6)));if(typeof initial.scope==="string"&&opts.some(x=>x[0]===initial.scope))$("scope").value=initial.scope;}catch{feedback("Enlace de lista no válido.")}}
+ await loadScope(initial);
  }catch(e){if(generation!==loadGeneration)return;clearResults("Catálogo temporalmente no disponible.");$("warning").textContent="No se pudo cargar el índice: "+e.message+". Reintenta.";}finally{$("reload").disabled=false}
 }
 function sync(){
@@ -96,7 +98,8 @@ function drawConditions(){
 }
 function drawColumns(){const box=$("columns");box.replaceChildren();for(const k of available()){const l=elem("label",undefined,"check"),c=elem("input");c.type="checkbox";c.checked=state.columns.includes(k);c.onchange=()=>{if(c.checked)state.columns=[...new Set([...state.columns,k])];else if(state.columns.length>1)state.columns=state.columns.filter(x=>x!==k);else c.checked=true;render()};l.append(c,document.createTextNode(fieldName(k)));box.append(l)}}
 function upgrade(c){if(c?.schema!=="EMDC-LD01-CONCEPTUAL-1.0")return c;const old=c.criteria||{};return {...defaults(),name:c.name,q:old.q||"",facets:Object.fromEntries(["category","brand","maker","scale","material"].filter(k=>typeof old[k]==="string"&&old[k]).map(k=>[k,old[k]])),from:old.from||"",to:old.to||"",sort:old.sort||"model",view:old.view||defaultView()}}
-function apply(c){if(!ready)throw Error("Carga un catálogo primero");c=upgrade(c);if(!E.validateConfig(c,fields))throw Error("Configuración incompatible o inválida para la fuente actual");state={...defaults(),...c,facets:{...c.facets},conditions:c.conditions.map(x=>({...x})),columns:[...c.columns]};page=1;selected.clear();sync();render();feedback("Consulta aplicada.");}
+function applyLocal(c){if(!ready)throw Error("Carga un catálogo primero");c=upgrade(c);if(!E.validateConfig(c,fields))throw Error("Configuración incompatible o inválida para la fuente actual");state={...defaults(),...c,facets:{...c.facets},conditions:c.conditions.map(x=>({...x})),columns:[...c.columns]};page=1;selected.clear();sync();render();feedback("Consulta aplicada.");}
+function apply(c){c=upgrade(c);if(!manifest||!c)throw Error("Catálogo no disponible");if(typeof c.scope==="string"&&c.scope!==$("scope").value){if(!["","all",...manifest.segments.map(s=>s.id)].includes(c.scope))throw Error("El fabricante de la lista ya no está disponible");if(!E.validateConfig(c,fields))throw Error("Configuración incompatible");$("scope").value=c.scope;loadScope(c);return}applyLocal(c)}
 function linkCell(r,k){if(k==="article"&&r.article)return articleLink(r);if(k==="source"&&E.present(r.source)){const a=elem("a","Consultar fuente");a.href=r.source;a.target="_blank";a.rel="noopener noreferrer";return a}return document.createTextNode(display(pretty(k,r[k])))}
 function selectBox(r){const l=elem("label",undefined,"check"),c=elem("input");c.type="checkbox";c.checked=selected.has(r.id);c.setAttribute("aria-label","Seleccionar "+labelOf(r)+" para comparar");c.onchange=()=>{if(c.checked){if(selected.size>=4){c.checked=false;feedback("Máximo cuatro registros para comparar.");return}selected.add(r.id)}else selected.delete(r.id);updateSelection();if(state.view==="compare")render()};l.append(c,document.createTextNode("Comparar"));return l}
 function rowCard(r,cols){const a=elem("article",undefined,"item");const detail=elem("button",labelOf(r),"record-title");detail.onclick=()=>openDetail(r);a.append(elem("span",({fabricante:"Fabricante",modelo:"Modelo",variante:"Variante",aparicion:"Aparición"})[state.level],"levelbadge"),detail,elem("p",r.id,"small"));const pic=photo(r);if(pic)a.prepend(pic);const dl=elem("dl");for(const k of cols.filter(k=>!["brand","model","id"].includes(k))){const dt=elem("dt",fieldName(k)),dd=elem("dd");dd.append(linkCell(r,k));dl.append(dt,dd)}a.append(dl,selectBox(r));if(r.article)a.append(articleLink(r));return a}
@@ -128,7 +131,7 @@ function download(name,content,type){const url=URL.createObjectURL(new Blob([con
 function showSaved(){const box=$("saved");box.replaceChildren();if(!saved.length)box.append(elem("p","No hay listas guardadas.","small"));saved.forEach((s,i)=>{const line=elem("div",undefined,"saved"),open=elem("button","Abrir"),del=elem("button","Eliminar");open.onclick=()=>{try{apply(s)}catch(e){feedback(e.message)}};del.onclick=()=>{saved.splice(i,1);persist();showSaved()};line.append(elem("strong",s.name),open,del);box.append(line)})}
 function persist(){try{localStorage.setItem(storage,JSON.stringify(saved));feedback("Criterios guardados en este navegador.")}catch{feedback("No se pudo acceder al almacenamiento local; listas temporales.")}}
 function library(){const box=$("library");box.replaceChildren();const items=manifest?.lists||[];for(const item of items){if(!item||!E.validateConfig(item,fields))continue;const b=elem("button",item.name);b.onclick=()=>{if(ready)apply(item)};box.append(b)}if(!box.children.length)box.append(elem("p","No hay catálogos temáticos publicados todavía.","small"))}
-$("scope").onchange=loadScope;
+$("scope").onchange=()=>loadScope();
 $("level").onchange=e=>changeLevel(e.target.value);
 for(const k of ["q","from","to","logic","sort","view"])$(k).addEventListener("input",e=>{state[k]=e.target.value;if(k==="view"&&state.view!=="compare")lastView=state.view;if(k==="view"&&state.view==="timeline"){state.sort="year";$("sort").value="year"}resetPage()});
 for(const k of facetKeys)$(k).onchange=e=>{state.facets[k]=e.target.value;resetPage()};
@@ -138,7 +141,7 @@ $("size").onchange=e=>{size=Number(e.target.value);resetPage()};$("prev").onclic
 $("save").onclick=()=>{if(!$("name").value.trim()){feedback("Introduce el nombre de la lista.");return}if(!E.validateConfig(config(),fields)){feedback("Consulta inválida.");return}saved.push(config());persist();showSaved()};
 $("export").onclick=()=>download("emdc-lista-v2.json",JSON.stringify(config(),null,2),"application/json");
 $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(config(),null,2));feedback("Configuración copiada.")}catch{feedback("Portapapeles no disponible; descarga el JSON.")}};
-$("share").onclick=async()=>{if(data?.mode!=="public"){feedback("Compartir por URL solo está habilitado con una fuente publicada; exporta los criterios locales si lo deseas.");return}if(!E.validateConfig(config(),fields)){feedback("Consulta inválida.");return}const u=new URL(location.href);u.searchParams.set("scope",$("scope").value);u.hash="lista="+encodeURIComponent(JSON.stringify(config()));try{await navigator.clipboard.writeText(u.href);feedback("Enlace copiado.")}catch{$("shareLink").hidden=false;$("shareLink").value=u.href}};
+$("share").onclick=async()=>{if(data?.mode!=="public"){feedback("El catálogo no está disponible.");return}if(!E.validateConfig(config(),fields)){feedback("Consulta inválida.");return}const u=new URL("index.html",publishedRoot);u.searchParams.set("scope",$("scope").value);u.hash="lista="+encodeURIComponent(JSON.stringify(config()));try{await navigator.clipboard.writeText(u.href);feedback("Enlace copiado.")}catch{$("shareLink").hidden=false;$("shareLink").value=u.href}};
 $("csv").onclick=()=>download("emdc-resultados.csv",E.csv(rows,displayCols(),labels),"text/csv;charset=utf-8");
 $("config").onchange=async e=>{try{if(e.target.files[0])apply(JSON.parse(await e.target.files[0].text()))}catch(err){feedback(err.message)}finally{e.target.value=""}};
 $("reload").onclick=reload;$("compareNow").onclick=()=>{lastView=state.view==="compare"?lastView:state.view;state.view="compare";$("view").value="compare";render();$("resultSection").scrollIntoView({block:"start"})};$("clearSelection").onclick=()=>{selected.clear();if(state.view==="compare"){state.view=lastView;$("view").value=lastView}render()};$("backFilters").onclick=()=>$("filterSection").scrollIntoView({block:"start",behavior:"smooth"});$("closeDetail").onclick=()=>{const d=$("detail");if(typeof d.close==="function")d.close();else d.open=false};
