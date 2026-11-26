@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EMDC-LD01 Public Projection 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "authorization",
+    "rows"
+  ],
+  "properties": {
+    "schema": {
+      "const": "EMDC-LD01-PUBLIC-1.0"
+    },
+    "authorization": {
+      "const": "APPROVED"
+    },
+    "rows": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fabricante",
+        "modelo",
+        "variante",
+        "aparicion"
+      ],
+      "properties": {
+        "fabricante": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record"
+          }
+        },
+        "modelo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record"
+          }
+        },
+        "variante": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record"
+          }
+        },
+        "aparicion": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "maker": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "brand": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scale": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "material": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "materialClass": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "series": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "color": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "country": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "profile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verification": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "wheel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decoration": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "modelId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "variantId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fabricante_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "modelo_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "variante_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "year": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "modelYear": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "article": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://miniaturasdiecasting\\.blogspot\\.com/"
+        },
+        "photo": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://drakit\\.github\\.io/emdc-cat-public/assets/"
+        },
+        "photo_authorized": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
