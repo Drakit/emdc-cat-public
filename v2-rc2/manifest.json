@@ -1,0 +1,18 @@
+{
+  "schema": "EMDC-LD01-MANIFEST-1.0",
+  "version": "2.0-RC2",
+  "status": "EXPERIMENTAL",
+  "source": {
+    "type": "fictional",
+    "path": "../demo.json"
+  },
+  "entry": "index.html",
+  "modules": [
+    "engine.js",
+    "app.js"
+  ],
+  "public_real_data": false,
+  "stable_reference": "../v2/",
+  "blogger_mode": "?embed=1",
+  "public_schema": "EMDC-LD01-PUBLIC-1.0"
+}
