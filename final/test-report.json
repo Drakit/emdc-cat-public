@@ -1,0 +1,36 @@
+{
+  "version": "2.0-FINAL",
+  "status": "PREPARACION_PRODUCCION",
+  "date": "2026-11-26",
+  "published_real_records": 0,
+  "public_fictional_records": 0,
+  "tests": {
+    "app_simulated_passed": 10,
+    "app_simulated_total": 10,
+    "scope": "DOM y transporte simulados; digest simulado para verificar rechazo; no navegador real",
+    "private_export": {
+      "source": "EMDC-CAT V3.4 y UNI T03",
+      "segments": 80,
+      "records": {
+        "fabricante": 80,
+        "modelo": 3496,
+        "variante": 1146,
+        "aparicion": 1516
+      },
+      "uni_bytes": 1843120,
+      "hashes_verified": 80,
+      "fields_projected": 19,
+      "explicit_article_links": 0,
+      "active_profile_ND": 3496,
+      "incremental_test": "mismo segmento conservado",
+      "rights_gate_test": "aprobación ausente o derechos no revisados bloquea publicación"
+    }
+  },
+  "pending": [
+    "Aprobar registros y campos específicos y sus derechos",
+    "Publicar exclusivamente proyección aprobada y probar manifest/segmentos reales online",
+    "Validar visualmente FINAL en Blogger de pruebas y las funciones interactivas",
+    "Ampliar estructuras complejas UNI y asociaciones FT02 conforme existan",
+    "Autorizar instalación blog principal"
+  ]
+}
