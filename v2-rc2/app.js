@@ -31,7 +31,69 @@ function populateData(d,src){
   setStatus(src+" · "+Object.entries(data.rows).map(([k,v])=>v.length+" "+k).join(" · "));
   sync();render();
 }
-async function reload(){try{const mf=await fetch("./manifest.json",{cache:"no-store"});if(!mf.ok)throw Error("Manifiesto de publicación no disponible");const manifest=await mf.json();if(manifest.schema!=="EMDC-LD01-MANIFEST-1.0")throw Error("Manifiesto incompatible");const path=manifest.source?.type==="public"&&manifest.source?.authorization==="APPROVED"&&manifest.source?.path==="./public-data.json"?"./public-data.json":manifest.source?.type==="fictional"&&manifest.source?.path==="../demo.json"?"../demo.json":null;if(!path)throw Error("Fuente no autorizada o incompatible");const response=await fetch(path,{cache:"no-store"});if(!response.ok)throw Error("HTTP "+response.status);const payload=await response.json();if(path==="./public-data.json"&&(payload.schema!=="EMDC-LD01-PUBLIC-1.0"||payload.authorization!=="APPROVED"))throw Error("Proyección no aprobada");if(path==="../demo.json"&&payload.fictional!==true)throw Error("Fuente ficticia incompatible");populateData(payload,"JSON de GitHub Pages");const raw=location.hash.slice(1);if(raw.startsWith("lista=")){try{apply(JSON.parse(decodeURIComponent(raw.slice(6))))}catch(e){feedback("Enlace de lista no válido: "+e.message)}}}catch(e){setStatus("No se pudo cargar la demostración: "+e.message+". Puedes importar un archivo JSON local.")}}
+const publishedRoot="https://drakit.github.io/emdc-cat-public/";
+let loadGeneration=0;
+async function fetchJson(url){
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),8000);
+  try{
+    const response=await fetch(url,{cache:"no-store",signal:controller.signal});
+    if(!response.ok)throw Error("HTTP "+response.status);
+    return await response.json();
+  }catch(e){if(e.name==="AbortError")throw Error("Tiempo de conexión agotado");throw e}
+  finally{clearTimeout(timeout)}
+}
+function restoreShared(){const raw=location.hash.slice(1);if(raw.startsWith("lista=")){try{apply(JSON.parse(decodeURIComponent(raw.slice(6))))}catch(e){feedback("Enlace de lista no válido: "+e.message)}}}
+async function reload(){
+ const generation=++loadGeneration;let publicRequested=false;
+ $("warning").textContent="Cargando catálogo publicado…";
+ $("sourceBadge").textContent="Estado de la fuente · Cargando";
+ setStatus("Consultando manifiesto y datos JSON.");
+ $("reload").disabled=true;
+ try{
+  const manifest=await fetchJson(publishedRoot+"v2-rc2/manifest.json?rev=20261126-rc2a");
+  if(generation!==loadGeneration)return;
+  if(manifest?.schema!=="EMDC-LD01-MANIFEST-1.0")throw Error("Manifiesto incompatible");
+  publicRequested=manifest.source?.type==="public";
+  const path=publicRequested&&manifest.source?.authorization==="APPROVED"&&manifest.source?.path==="./public-data.json"?"v2-rc2/public-data.json":manifest.source?.type==="fictional"&&manifest.source?.path==="../demo.json"?"demo.json":null;
+  if(!path)throw Error("Fuente no autorizada o incompatible");
+  const payload=await fetchJson(publishedRoot+path+"?rev=20261126-rc2a");
+  if(generation!==loadGeneration)return;
+  if(publicRequested&&(payload.schema!=="EMDC-LD01-PUBLIC-1.0"||payload.authorization!=="APPROVED"))throw Error("Proyección no aprobada");
+  if(!publicRequested&&payload.fictional!==true)throw Error("Fuente ficticia incompatible");
+  populateData(payload,"JSON de GitHub Pages");restoreShared();
+ }catch(e){
+  if(generation!==loadGeneration)return;
+  const reason=e.message||String(e);
+  if(publicRequested){
+   $("warning").textContent="No se pudo cargar el catálogo público autorizado. "+reason+". No se ha sustituido por datos ficticios.";
+   $("sourceBadge").textContent="Estado de la fuente · Error de carga";
+   setStatus(reason);return;
+  }
+  try{
+   const payload=await fetchJson(publishedRoot+"demo.json?rev=20261126-rc2a-direct");
+   if(generation!==loadGeneration)return;
+   if(payload?.schema_version!=="demo-1.0"||payload.fictional!==true)throw Error("Demostración incompatible");
+   populateData(payload,"JSON ficticio directo · manifiesto no disponible: "+reason);
+   $("warning").textContent="Datos ficticios de demostración. Carga directa de respaldo; no se pudo completar la lectura normal del manifiesto.";
+   restoreShared();
+  }catch(fallbackError){
+   if(generation!==loadGeneration)return;
+   try{
+    const payload=JSON.parse($("demoBackup").textContent);
+    if(payload?.schema_version!=="demo-1.0"||payload.fictional!==true)throw Error("Respaldo ficticio incompatible");
+    populateData(payload,"Copia ficticia de contingencia incluida en HTML; no se pudo consultar GitHub Pages.");
+    $("warning").textContent="Datos ficticios de respaldo local. No se pudo cargar el JSON online. Pulsa Recargar catálogo publicado para reintentar.";
+    $("sourceBadge").textContent="Demostración · respaldo local";
+    restoreShared();
+   }catch(lastError){
+    $("warning").textContent="Error de carga: "+reason+". "+lastError.message+". Reintenta o importa un JSON compatible.";
+    $("sourceBadge").textContent="Estado de la fuente · Error";
+    setStatus(reason);
+   }
+  }
+ }finally{if(generation===loadGeneration)$("reload").disabled=false}
+}
 function sync(){
  $("level").value=state.level;$("q").value=state.q;$("from").value=state.from;$("to").value=state.to;$("logic").value=state.logic;$("sort").value=state.sort;$("view").value=state.view;$("name").value=state.name;
  drawConditions();drawColumns();
@@ -97,7 +159,7 @@ $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringi
 $("share").onclick=async()=>{if(!["demo","public"].includes(data?.mode)){feedback("Compartir por URL solo está habilitado con una fuente publicada; exporta los criterios locales si lo deseas.");return}if(!E.validateConfig(config(),fields)){feedback("Consulta inválida.");return}const u=new URL(location.href);u.hash="lista="+encodeURIComponent(JSON.stringify(config()));try{await navigator.clipboard.writeText(u.href);feedback("Enlace copiado.")}catch{$("shareLink").hidden=false;$("shareLink").value=u.href}};
 $("csv").onclick=()=>download("emdc-resultados.csv",E.csv(rows,displayCols(),labels),"text/csv;charset=utf-8");
 $("config").onchange=async e=>{try{if(e.target.files[0])apply(JSON.parse(await e.target.files[0].text()))}catch(err){feedback(err.message)}finally{e.target.value=""}};
-$("file").onchange=async e=>{try{if(e.target.files[0])populateData(JSON.parse(await e.target.files[0].text()),"Archivo local · solo lectura")}catch(err){setStatus(err.message)}finally{e.target.value=""}};
+$("file").onchange=async e=>{try{if(e.target.files[0]){++loadGeneration;$("reload").disabled=false;populateData(JSON.parse(await e.target.files[0].text()),"Archivo local · solo lectura")}}catch(err){setStatus(err.message)}finally{e.target.value=""}};
 $("reload").onclick=reload;$("compareNow").onclick=()=>{lastView=state.view==="compare"?lastView:state.view;state.view="compare";$("view").value="compare";render();$("resultSection").scrollIntoView({block:"start"})};$("clearSelection").onclick=()=>{selected.clear();if(state.view==="compare"){state.view=lastView;$("view").value=lastView}render()};$("backFilters").onclick=()=>$("filterSection").scrollIntoView({block:"start",behavior:"smooth"});$("closeDetail").onclick=()=>{const d=$("detail");if(typeof d.close==="function")d.close();else d.open=false};
 try{const arr=JSON.parse(localStorage.getItem(storage)||"[]");if(Array.isArray(arr))saved=arr.filter(x=>x&&typeof x.name==="string");if(!localStorage.getItem(storage)){const prior=JSON.parse(localStorage.getItem("emdc-ld01-v2-criteria")||"[]");const old=JSON.parse(localStorage.getItem("emdc-ld01-conceptual-v1")||"[]");if(Array.isArray(prior)&&prior.length)saved=prior.filter(x=>x?.schema==="EMDC-LD01-2.0");else if(Array.isArray(old))saved=old.filter(x=>x?.schema==="EMDC-LD01-CONCEPTUAL-1.0").map(upgrade)}}catch{}
 library();showSaved();sync();reload();
