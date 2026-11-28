@@ -1,6 +1,6 @@
 {
   "schema": "EMDC-LD01-RELEASE-1.0",
-  "release": "2026-11-26-R01",
+  "release": "2026-11-28-R02",
   "status": "APPROVED",
   "fictional": false,
   "default_scope": "FAB-000010",
@@ -8,13 +8,13 @@
     {
       "id": "FAB-000010",
       "label": "Hot Wheels",
-      "path": "data/3252064561a0fb6e95b017fbca66223c8763d258d32fc2061ad5d3e86fc08547.json",
-      "sha256": "3252064561a0fb6e95b017fbca66223c8763d258d32fc2061ad5d3e86fc08547",
+      "path": "data/bf686caa1c43993b09cec05367510a0a3d6829047dd9131bd074ba81f60afb5d.json",
+      "sha256": "bf686caa1c43993b09cec05367510a0a3d6829047dd9131bd074ba81f60afb5d",
       "counts": {
         "fabricante": 1,
-        "modelo": 10,
-        "variante": 19,
-        "aparicion": 19
+        "modelo": 15,
+        "variante": 117,
+        "aparicion": 119
       }
     },
     {
@@ -46,6 +46,30 @@
       "label": "Andin Box",
       "path": "data/4ba168e9b0cb6736b15e7772069051c5edfaad3c5306e12d9ff53485ca73bae2.json",
       "sha256": "4ba168e9b0cb6736b15e7772069051c5edfaad3c5306e12d9ff53485ca73bae2",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-ALE",
+      "label": "Alerte",
+      "path": "data/9b2d5b608dd6d3083c70f1357a904c103bc4b0ad5dff1efe87ca9bdc2f6d2466.json",
+      "sha256": "9b2d5b608dd6d3083c70f1357a904c103bc4b0ad5dff1efe87ca9bdc2f6d2466",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-ALR",
+      "label": "Almost Real",
+      "path": "data/a7fb17add81bc73cb2cfd773dcb6fd62fed35ca0cd0f6f36cd07368b24931b55.json",
+      "sha256": "a7fb17add81bc73cb2cfd773dcb6fd62fed35ca0cd0f6f36cd07368b24931b55",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -138,6 +162,18 @@
       }
     },
     {
+      "id": "FAB-EMDC-BRU",
+      "label": "BRUDER",
+      "path": "data/d709c9254dceae855c9a90310c2ec77910caaebb352102c716770a982582a9dd.json",
+      "sha256": "d709c9254dceae855c9a90310c2ec77910caaebb352102c716770a982582a9dd",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
       "id": "FAB-EMDC-BUD",
       "label": "Budgie Toys / Morestone",
       "path": "data/946bb4833885a6bfeb8f534767bdca64e5f6be8fa9200a6bb0fc04799d818168.json",
@@ -178,6 +214,18 @@
       "label": "Corgi",
       "path": "data/e2058ac51d52b0cf94cf9fd0ee6e8dd6b3f2901ef420aa9b0cc0dcbbc333ab09.json",
       "sha256": "e2058ac51d52b0cf94cf9fd0ee6e8dd6b3f2901ef420aa9b0cc0dcbbc333ab09",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-CUL",
+      "label": "Cult Scale Models",
+      "path": "data/b57b960622b196a7bad9d93d5647234c727bcfd793be05d2ac26f375089d51a3.json",
+      "sha256": "b57b960622b196a7bad9d93d5647234c727bcfd793be05d2ac26f375089d51a3",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -246,6 +294,18 @@
       }
     },
     {
+      "id": "FAB-EMDC-EDI",
+      "label": "Edicola",
+      "path": "data/3cd4efb080691acafc1ced584958b0beca1f523389c98667aeede24e75390f24.json",
+      "sha256": "3cd4efb080691acafc1ced584958b0beca1f523389c98667aeede24e75390f24",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
       "id": "FAB-EMDC-ELK",
       "label": "Elekon / AREK",
       "path": "data/4e2178d4988a7dd9192af08656a334fda6aaf2a7909da5a2b570c0d40e142f46.json",
@@ -286,6 +346,18 @@
       "label": "Franklin Mint",
       "path": "data/1b28b6b1b94108fdfe64d1f67729a055cf08d1f58f54b42934753aaa8b7e0349.json",
       "sha256": "1b28b6b1b94108fdfe64d1f67729a055cf08d1f58f54b42934753aaa8b7e0349",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-FSM",
+      "label": "Fine Scale Models",
+      "path": "data/092552c1ef43d1d3bd50f470deae2bed7e91aba5bf7f9ab20650f1ffd85817c4.json",
+      "sha256": "092552c1ef43d1d3bd50f470deae2bed7e91aba5bf7f9ab20650f1ffd85817c4",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -346,6 +418,18 @@
       "label": "Herpa",
       "path": "data/b38c59e4b0e1fe2bdd9be4ef40f49cb8f1863bf58bba20f104b34e93a606a49a.json",
       "sha256": "b38c59e4b0e1fe2bdd9be4ef40f49cb8f1863bf58bba20f104b34e93a606a49a",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-HJP",
+      "label": "Hobby Japan",
+      "path": "data/685a162d4f2239975d1821e9a01b9e244c45b986fc3063d7d722d3225740f1b2.json",
+      "sha256": "685a162d4f2239975d1821e9a01b9e244c45b986fc3063d7d722d3225740f1b2",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -438,10 +522,46 @@
       }
     },
     {
+      "id": "FAB-EMDC-KAH",
+      "label": "Kaido House",
+      "path": "data/f47847a15d1fbd0f925c16fe0a50e8661b8ba3912ff786be6fa7d9d6b9b5a8ba.json",
+      "sha256": "f47847a15d1fbd0f925c16fe0a50e8661b8ba3912ff786be6fa7d9d6b9b5a8ba",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
       "id": "FAB-EMDC-KIM",
       "label": "Kimmeria Models",
       "path": "data/e2267a5f1cc5e1b7bd8352112a505e22abb788cdff321699fe0131be4591a52a.json",
       "sha256": "e2267a5f1cc5e1b7bd8352112a505e22abb788cdff321699fe0131be4591a52a",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-KKS",
+      "label": "KK Scale",
+      "path": "data/a7efadf4a3b6de07580365ed9ab82784bbc169b5c9f1c3af400b3fc4f98f965e.json",
+      "sha256": "a7efadf4a3b6de07580365ed9ab82784bbc169b5c9f1c3af400b3fc4f98f965e",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-KLW",
+      "label": "Kilo Works",
+      "path": "data/55b71f8aa2ebeef8ff4179b05eaccaff661dfc21e8f36d31961ddc230f1feab0.json",
+      "sha256": "55b71f8aa2ebeef8ff4179b05eaccaff661dfc21e8f36d31961ddc230f1feab0",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -462,10 +582,46 @@
       }
     },
     {
+      "id": "FAB-EMDC-LCD",
+      "label": "LCD Models",
+      "path": "data/f132e7311c045b6839b281bf513c79dbf600f66d3ac81ee45c76478c436601d9.json",
+      "sha256": "f132e7311c045b6839b281bf513c79dbf600f66d3ac81ee45c76478c436601d9",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
       "id": "FAB-EMDC-LED",
       "label": "Lili Ledy / Bólidos",
       "path": "data/48661ed1a1a390cf449a3b014e33c01cbb44ee58f72bf4a5b3377f26b085a524.json",
       "sha256": "48661ed1a1a390cf449a3b014e33c01cbb44ee58f72bf4a5b3377f26b085a524",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-LIB",
+      "label": "Liberty64",
+      "path": "data/fd32b0c6e9e7e98405f2cd5cc972723b0710ba0ceac10823878423abee02434e.json",
+      "sha256": "fd32b0c6e9e7e98405f2cd5cc972723b0710ba0ceac10823878423abee02434e",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-LKS",
+      "label": "Looksmart",
+      "path": "data/8423f405e8ec00b9961001b34a28bb1f3819abbb1e9c898cda271f31a93c6fc0.json",
+      "sha256": "8423f405e8ec00b9961001b34a28bb1f3819abbb1e9c898cda271f31a93c6fc0",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -498,15 +654,27 @@
       }
     },
     {
-      "id": "FAB-EMDC-MBX",
-      "label": "Matchbox",
-      "path": "data/f42cabf929b505453e1c8cf65ab980c364c3dfe1d4cb451fc5520f7a5cbd11e1.json",
-      "sha256": "f42cabf929b505453e1c8cf65ab980c364c3dfe1d4cb451fc5520f7a5cbd11e1",
+      "id": "FAB-EMDC-MAX",
+      "label": "Maxichamps",
+      "path": "data/2c7c2a43a5092ed4ba342e1927492f4dc15cb865ba98ac83d4d73b5c2c1c31d2.json",
+      "sha256": "2c7c2a43a5092ed4ba342e1927492f4dc15cb865ba98ac83d4d73b5c2c1c31d2",
       "counts": {
         "fabricante": 1,
-        "modelo": 11,
-        "variante": 6,
-        "aparicion": 12
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-MBX",
+      "label": "Matchbox",
+      "path": "data/c6133bdf9cff905421af232e8c699eac1dcb241747e8790c72c3633fc3a8514d.json",
+      "sha256": "c6133bdf9cff905421af232e8c699eac1dcb241747e8790c72c3633fc3a8514d",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 12,
+        "variante": 12,
+        "aparicion": 23
       }
     },
     {
@@ -514,6 +682,18 @@
       "label": "Motor City Classics",
       "path": "data/8887cf83cc4c90b754b36f9813eed192c17dfb9d5d2887a5ccfe567809b5e418.json",
       "sha256": "8887cf83cc4c90b754b36f9813eed192c17dfb9d5d2887a5ccfe567809b5e418",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-MCG",
+      "label": "Model Car Group",
+      "path": "data/f224d0e36e5ecb0c0970b0d7195b740b1ea0d416eecc51744e9a9b33c7928fbb.json",
+      "sha256": "f224d0e36e5ecb0c0970b0d7195b740b1ea0d416eecc51744e9a9b33c7928fbb",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -538,6 +718,18 @@
       "label": "Mini GT",
       "path": "data/ebed77bbd2ee24dbd4c48b177f5896082df683a37749ffb5943b4ddc58ee94c1.json",
       "sha256": "ebed77bbd2ee24dbd4c48b177f5896082df683a37749ffb5943b4ddc58ee94c1",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-MHL",
+      "label": "MotorHelix",
+      "path": "data/140a7c84eeff3f505d879d60d329e65c4590ae19ec177dd2d9d314fc7cae5105.json",
+      "sha256": "140a7c84eeff3f505d879d60d329e65c4590ae19ec177dd2d9d314fc7cae5105",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -574,6 +766,18 @@
       "label": "Märklin",
       "path": "data/4e4f2dd768dc328d27d962b3b25d51fe3c64209cb3c0df29bfc0313c9d2844a7.json",
       "sha256": "4e4f2dd768dc328d27d962b3b25d51fe3c64209cb3c0df29bfc0313c9d2844a7",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-MTU",
+      "label": "Micro Turbo",
+      "path": "data/ec93ef344a94ffa0ce732059efb69f539520630b68245c16737445b045a5fb49.json",
+      "sha256": "ec93ef344a94ffa0ce732059efb69f539520630b68245c16737445b045a5fb49",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -634,6 +838,18 @@
       "label": "Para64 / Paragon Models",
       "path": "data/b1adae3bf1fde986fb682b4d5b66ca22017043d3e804e899cbb27890781a2a57.json",
       "sha256": "b1adae3bf1fde986fb682b4d5b66ca22017043d3e804e899cbb27890781a2a57",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-PCX",
+      "label": "Premium ClassiXXs",
+      "path": "data/1fb683b4fc0b69c5df9573ccdbc7d4d138cb3b64d3f897b3be8abc93cf5a961b.json",
+      "sha256": "1fb683b4fc0b69c5df9573ccdbc7d4d138cb3b64d3f897b3be8abc93cf5a961b",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -762,10 +978,34 @@
       }
     },
     {
+      "id": "FAB-EMDC-SPY",
+      "label": "Sparky",
+      "path": "data/3d95c10356d171fe249fbdbf044a915f7417b576cb2e12edae38e14805ab36c4.json",
+      "sha256": "3d95c10356d171fe249fbdbf044a915f7417b576cb2e12edae38e14805ab36c4",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
       "id": "FAB-EMDC-SSM",
       "label": "Start Scale Models",
       "path": "data/99a8db88ebf2aa2e0d85492c91be8c9501173bb3edc9c6e4404ba3381060d410.json",
       "sha256": "99a8db88ebf2aa2e0d85492c91be8c9501173bb3edc9c6e4404ba3381060d410",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-STH",
+      "label": "Stance Hunters",
+      "path": "data/fa7984ec68ba5886a4f825dd9ee92f3773de8ced8a577873d9e09eee020f278a.json",
+      "sha256": "fa7984ec68ba5886a4f825dd9ee92f3773de8ced8a577873d9e09eee020f278a",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -846,10 +1086,58 @@
       }
     },
     {
+      "id": "FAB-EMDC-TNY",
+      "label": "Tiny",
+      "path": "data/bad8ec4dc4c50574a52c75e423641543b0ea710491cf42ef68d35caa72e4d4d7.json",
+      "sha256": "bad8ec4dc4c50574a52c75e423641543b0ea710491cf42ef68d35caa72e4d4d7",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
       "id": "FAB-EMDC-TOM",
       "label": "Tomica",
       "path": "data/27234b984f812f237fb6565bc7d09c04362c9da755e1da84e16c2a64b0f31232.json",
       "sha256": "27234b984f812f237fb6565bc7d09c04362c9da755e1da84e16c2a64b0f31232",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-TPM",
+      "label": "Top Marques",
+      "path": "data/5600e8bea92e66b3e0f8f5e9209724b3d5355cddc2ffb8830a320c3cb86437a3.json",
+      "sha256": "5600e8bea92e66b3e0f8f5e9209724b3d5355cddc2ffb8830a320c3cb86437a3",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-TRH",
+      "label": "Trends Hobby",
+      "path": "data/24c4a0b0bfb672fc7e5ce65039ad091845ae3d3f6b0cc4825aeeba7f4ab5f87d.json",
+      "sha256": "24c4a0b0bfb672fc7e5ce65039ad091845ae3d3f6b0cc4825aeeba7f4ab5f87d",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-TSM",
+      "label": "TSM",
+      "path": "data/4e041d8d9cd8647d32ea5ff7a511850ee3c0edf97f080310c371643a08e2d535.json",
+      "sha256": "4e041d8d9cd8647d32ea5ff7a511850ee3c0edf97f080310c371643a08e2d535",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -886,6 +1174,18 @@
       "label": "Universal Hobbies",
       "path": "data/47374b5df33108e26858b5db83c4a6efd7c9617f300ea15efc3f7312e7a3fa3e.json",
       "sha256": "47374b5df33108e26858b5db83c4a6efd7c9617f300ea15efc3f7312e7a3fa3e",
+      "counts": {
+        "fabricante": 1,
+        "modelo": 0,
+        "variante": 0,
+        "aparicion": 0
+      }
+    },
+    {
+      "id": "FAB-EMDC-W83",
+      "label": "WERK 83",
+      "path": "data/73dcff671aeb57b96aa157ff435057f5cfe8e7111e2512d4e2bad0b596bfa89f.json",
+      "sha256": "73dcff671aeb57b96aa157ff435057f5cfe8e7111e2512d4e2bad0b596bfa89f",
       "counts": {
         "fabricante": 1,
         "modelo": 0,
@@ -974,5 +1274,5 @@
     }
   ],
   "lists": [],
-  "coverage": "Primera selección documental. No representa la totalidad de EMDC-CAT ni la producción histórica."
+  "coverage": "Selección documental ampliada desde MBX-CODE-0001. Directorio de marcas y selección de datos de Hot Wheels y Matchbox; no representa la totalidad de EMDC-CAT ni una verificación individual exhaustiva."
 }

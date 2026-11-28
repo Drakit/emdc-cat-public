@@ -19,3 +19,12 @@ Directorio: denominaciones de 80 fabricantes/marcas/editoriales registrados por 
 - https://matchbox.fandom.com/wiki/List_of_2017_Matchbox (autores: historial de la página)
 - https://matchbox.fandom.com/wiki/List_of_2026_Matchbox (autores: historial de la página)
 - https://matchbox.fandom.com/wiki/Morgan_3_Wheeler (autores: historial de la página)
+
+## Actualización 2026-11-28-R02
+Selección factual autorizada por el responsable de EMDC el 28-11-2026. Base interna MBX-CODE-0001. Se amplía el directorio y se publican hechos seleccionados de cinco modelos Hot Wheels y un modelo Matchbox. Datos con certeza documental y discrepancias conservadas en el maestro; referencias de conjuntos no equivalen a SKU individual. Se omite la variante Anglia no lanzada. No se incluyen imágenes ni textos editoriales, ni se publican los maestros internos. Atribución y condiciones Fandom como en R01:
+- https://hotwheels.fandom.com/wiki/Batmobile_(2021) (autores: historial de la página)
+- https://hotwheels.fandom.com/wiki/Classic_TV_Series_Batmobile_(Tooned) (autores: historial de la página)
+- https://hotwheels.fandom.com/wiki/Armored_Batmobile (autores: historial de la página)
+- https://hotwheels.fandom.com/wiki/The_Dark_Knight_Batmobile (autores: historial de la página)
+- https://hotwheels.fandom.com/wiki/Anglia_Panel_Truck (autores: historial de la página)
+- https://matchbox.fandom.com/wiki/Boeing_CH-47_Chinook_(SB147) (autores: historial de la página)

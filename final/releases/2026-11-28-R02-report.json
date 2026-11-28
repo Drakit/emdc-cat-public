@@ -1,0 +1,24 @@
+{
+  "status": "PUBLICACION_PARCIAL_AMPLIADA",
+  "release": "2026-11-28-R02",
+  "source": "EMDC-CAT MBX-CODE-0001",
+  "counts": {
+    "fabricante": 105,
+    "modelo": 27,
+    "variante": 129,
+    "aparicion": 142
+  },
+  "total": 403,
+  "segments": 105,
+  "fictional": 0,
+  "previous_release": "2026-11-26-R01",
+  "previous_commit": "d19c092226545f94be460b05833471f0df6751fa",
+  "rights_scope": "Selección factual, CC BY-SA 3.0 para adaptación Fandom cuando corresponda. Sin imágenes ni documentos maestros.",
+  "pending": "Resto de la base local, revisión de permisos y fuentes, comprobación individual y prueba funcional de GitHub Pages/Blogger.",
+  "local_counts": {
+    "fabricante": 105,
+    "modelo": 3752,
+    "variante": 1670,
+    "aparicion": 2525
+  }
+}
